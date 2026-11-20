@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Grammar Quest</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1d2433;--mu:#5b6478;--ac:#4f46e5;--ok:#16a34a;--bad:#dc2626;--bd:#d9deea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1c202c;--tx:#eef0f6;--mu:#9aa3b8;--ac:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#323850}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+#app{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:24px;margin:0}h2{margin:8px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.xp{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:4px 12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.tp{cursor:pointer;text-align:left;font:inherit;color:inherit}.tp:hover{border-color:var(--ac)}
+.tp b{display:block;font-size:17px}.tp span{color:var(--mu);font-size:13px}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700}
+.btn.g{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+.ex{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
+.ex:last-child{border:0}.ex div{flex:1}.ex small{color:var(--mu);display:block}
+.sp{background:var(--ac);color:#fff;border:0;border-radius:50%;width:38px;height:38px;flex:none}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--bd);border-radius:10px;padding:12px;margin:8px 0;font-size:18px}
+.opt:hover{border-color:var(--ac)}.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--card))}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,var(--card))}
+.q{font-size:22px;font-weight:700;margin:10px 0}.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.fb{margin-top:10px;padding:10px;border-radius:10px;background:var(--bg)}
+.tag{display:inline-block;background:var(--ac);color:#fff;border-radius:6px;padding:0 8px;font-weight:700}
+table{border-collapse:collapse;margin:8px 0}td,th{border:1px solid var(--bd);padding:4px 10px}
+.tabs{display:flex;gap:8px;margin-bottom:10px}
+</style></head><body><div id="app"></div>
+<script>
+const T=[
+{i:"🙋",n:"Do / Does",e:`<p>Usamos <span class="tag">do</span> y <span class="tag">does</span> para hacer <b>preguntas en presente</b>.</p><table><tr><th>do</th><th>does</th></tr><tr><td>I, you, we, they</td><td>he, she, it</td></tr></table><p>Fórmula: <b>Do/Does + persona + verbo base?</b> Ej: Does she <u>play</u>? (el verbo NO lleva -s).</p>`,
+x:[["Do you like pizza?","¿Te gusta la pizza?"],["Does she play football?","¿Ella juega fútbol?"],["Do they live here?","¿Ellos viven aquí?"],["Does it rain a lot?","¿Llueve mucho?"]],
+q:["___ you like pizza?|Do|Does,Is|¿Te gusta la pizza?","___ she play football?|Does|Do,Is|¿Ella juega fútbol?","___ they live here?|Do|Does,Are|¿Ellos viven aquí?","___ he work on Mondays?|Does|Do,Is|¿Él trabaja los lunes?","___ your mother cook?|Does|Do,Are|¿Tu mamá cocina?","___ we have class today?|Do|Does,Is|¿Tenemos clase hoy?","___ it rain a lot here?|Does|Do,Is|¿Llueve mucho aquí?","___ you and Ana study together?|Do|Does,Did|¿Tú y Ana estudian juntas?"]},
+{i:"🚫",n:"Don’t / Doesn’t",e:`<p>Para decir <b>NO</b> en presente: <span class="tag">don’t</span> (I, you, we, they) y <span class="tag">doesn’t</span> (he, she, it).</p><p>Fórmula: <b>persona + don’t/doesn’t + verbo base</b>.<br>She doesn’t <u>like</u> coffee ✅ — She doesn’t likes ❌</p>`,
+x:[["I don’t like coffee.","No me gusta el café."],["He doesn’t play video games.","Él no juega videojuegos."],["We don’t have homework.","No tenemos tarea."],["It doesn’t work.","No funciona."]],
+q:["I ___ like coffee.|don’t|doesn’t,isn’t|No me gusta el café.","He ___ play video games.|doesn’t|don’t,isn’t|Él no juega videojuegos.","They ___ speak French.|don’t|doesn’t,aren’t|Ellos no hablan francés.","She ___ eat meat.|doesn’t|don’t,isn’t|Ella no come carne.","We ___ have homework.|don’t|doesn’t,aren’t|No tenemos tarea.","It ___ work.|doesn’t|don’t,isn’t|No funciona.","My dog ___ bark at night.|doesn’t|don’t,aren’t|Mi perro no ladra de noche.","You ___ need a pencil.|don’t|doesn’t,isn’t|No necesitas un lápiz."]},
+{i:"📍",n:"There is / There are",e:`<p><span class="tag">There is</span> = hay (uno / incontable). <span class="tag">There are</span> = hay (varios).</p><p>Negativo: <b>There isn’t</b> / <b>There aren’t</b>.<br>Pregunta: <b>Is there…?</b> / <b>Are there…?</b></p>`,
+x:[["There is a book on the table.","Hay un libro sobre la mesa."],["There are three students.","Hay tres estudiantes."],["There isn’t any milk.","No hay leche."],["Are there two bathrooms?","¿Hay dos baños?"]],
+q:["There ___ a book on the table.|is|are|Hay un libro sobre la mesa.","There ___ three students.|are|is|Hay tres estudiantes.","There ___ any milk in the fridge.|isn’t|aren’t|No hay leche en la heladera.","There ___ any chairs.|aren’t|isn’t|No hay sillas.","___ there a bank near here?|Is|Are|¿Hay un banco cerca?","___ there two bathrooms?|Are|Is|¿Hay dos baños?","There ___ some water.|is|are|Hay algo de agua.","There ___ ten computers in the lab.|are|is|Hay diez computadoras en el laboratorio."]},
+{i:"⏪",n:"Was / Wasn’t / Were",e:`<p>Pasado del verbo <b>to be</b>:</p><table><tr><th>was / wasn’t</th><th>were / weren’t</th></tr><tr><td>I, he, she, it</td><td>you, we, they</td></tr></table><p>Pregunta: <b>Was he…? / Were you…?</b></p>`,
+x:[["I was at home yesterday.","Ayer estuve en casa."],["They were happy.","Ellos estaban felices."],["She wasn’t at school.","Ella no estuvo en la escuela."],["Were you at the party?","¿Estuviste en la fiesta?"]],
+q:["I ___ at home yesterday.|was|were|Ayer estuve en casa.","They ___ happy.|were|was|Ellos estaban felices.","She ___ at school. She was sick.|wasn’t|weren’t|Ella no estuvo en la escuela.","We ___ in Paraguay last year.|were|was|Estuvimos en Paraguay el año pasado.","___ you at the party?|Were|Was|¿Estuviste en la fiesta?","___ he your teacher?|Was|Were|¿Era él tu profesor?","The kids ___ in the park. They were at home.|weren’t|wasn’t|Los niños no estaban en el parque.","It ___ cold yesterday.|was|were|Ayer hizo frío."]},
+{i:"❓",n:"WH Questions",e:`<p>Palabras para preguntar:<br><b>What</b> (qué) · <b>Where</b> (dónde) · <b>When</b> (cuándo) · <b>Who</b> (quién) · <b>Why</b> (por qué) · <b>How</b> (cómo) · <b>Which</b> (cuál)</p><p>Fórmula: <b>WH + do/does + persona + verbo?</b><br>Where <u>do</u> you live?</p>`,
+x:[["Where do you live?","¿Dónde vives?"],["What is your name?","¿Cuál es tu nombre?"],["Why does she study English?","¿Por qué ella estudia inglés?"],["How old are you?","¿Cuántos años tienes?"]],
+q:["___ do you live? In Asunción.|Where|What,Who|¿Dónde vives? En Asunción.","___ is your name?|What|Where,Why|¿Cuál es tu nombre?","___ does she study English? Because she likes it.|Why|When,Who|¿Por qué estudia inglés?","___ is your birthday? In May.|When|Who,Where|¿Cuándo es tu cumpleaños?","___ is that man? He is my uncle.|Who|Where,When|¿Quién es ese hombre?","___ old are you?|How|What,Who|¿Cuántos años tienes?","___ did you eat? A sandwich.|What|Where,Who|¿Qué comiste? Un sándwich.","___ do you go to school? By bus.|How|Why,Who|¿Cómo vas a la escuela? En bus."]},
+{i:"📜",n:"Pasado: afirmativo y negativo",e:`<p><b>Afirmativo:</b> verbo en pasado → I <u>watched</u> TV.<br><b>Negativo:</b> <span class="tag">didn’t</span> + verbo base → I didn’t <u>watch</u> TV.<br><b>Pregunta:</b> <span class="tag">Did</span> + persona + verbo base? → Did you <u>watch</u> TV?</p><p>Con <b>did/didn’t</b> el verbo vuelve a su forma base.</p>`,
+x:[["I watched TV yesterday.","Ayer vi televisión."],["She didn’t do the homework.","Ella no hizo la tarea."],["Did you see the movie?","¿Viste la película?"],["We didn’t eat breakfast.","No desayunamos."]],
+q:["I ___ TV yesterday.|watched|watch,watching|Ayer vi televisión.","She didn’t ___ the homework.|do|did,done|Ella no hizo la tarea.","They ___ football yesterday.|played|play,playing|Ellos jugaron fútbol ayer.","We ___ eat breakfast today.|didn’t|don’t,doesn’t|Hoy no desayunamos.","Did you ___ the movie?|see|saw,seen|¿Viste la película?","I ___ my keys yesterday.|lost|lose,losed|Ayer perdí mis llaves.","He didn’t ___ to school.|go|went,goes|Él no fue a la escuela.","___ she call you?|Did|Does,Was|¿Ella te llamó?"]},
+{i:"🏃",n:"Present Continuous",e:`<p>Algo que pasa <b>ahora mismo</b>.</p><p>Fórmula: <b>am / is / are + verbo-ing</b><br>I <u>am</u> studying · He/She/It <u>is</u> sleeping · You/We/They <u>are</u> playing</p><p>Negativo: isn’t / aren’t / am not. Pregunta: Are you listening?</p>`,
+x:[["I am studying now.","Estoy estudiando ahora."],["She is watching TV.","Ella está viendo TV."],["They are playing.","Ellos están jugando."],["Are you listening?","¿Estás escuchando?"]],
+q:["I am ___ now.|studying|study,studies|Estoy estudiando ahora.","She ___ watching TV.|is|are,does|Ella está viendo TV.","They ___ playing.|are|is,do|Ellos están jugando.","He ___ sleeping. He is working.|isn’t|aren’t,doesn’t|Él no está durmiendo.","We ___ eating lunch.|are|is,do|Estamos almorzando.","___ you listening?|Are|Is,Do|¿Estás escuchando?","It is ___ now.|raining|rain,rains|Está lloviendo ahora.","The cat ___ sleeping.|is|are,does|El gato está durmiendo."]},
+{i:"✏️",n:"Verbos regulares",e:`<p>En pasado, los verbos regulares terminan en <span class="tag">-ed</span>.</p><p>play → play<b>ed</b> · work → work<b>ed</b><br>live → live<b>d</b> (solo -d) · study → stud<b>ied</b> (y → ied) · stop → stop<b>ped</b> (doble consonante)</p>`,
+x:[["I played soccer.","Jugué fútbol."],["She opened the door.","Ella abrió la puerta."],["We studied English.","Estudiamos inglés."],["He lived in Paris.","Él vivió en París."]],
+q:["Yesterday I ___ English.|studied|studyed,study|Ayer estudié inglés.","She ___ the door.|opened|open,openned|Ella abrió la puerta.","We ___ soccer on Saturday.|played|plays,playd|Jugamos fútbol el sábado.","He ___ for the bus.|waited|wait,waits|Él esperó el bus.","They ___ in Paris last year.|lived|livd,live|Vivieron en París el año pasado.","I ___ my homework.|finished|finish,finishd|Terminé mi tarea.","She ___ the window.|closed|closeed,close|Ella cerró la ventana.","The baby ___ all night.|cried|cryed,cry|El bebé lloró toda la noche."]},
+{i:"⭐",n:"Verbos irregulares",e:`<p>No terminan en -ed: ¡hay que memorizarlos!</p><table><tr><th>Presente</th><th>Pasado</th></tr><tr><td>go</td><td>went</td></tr><tr><td>eat</td><td>ate</td></tr><tr><td>see</td><td>saw</td></tr><tr><td>have</td><td>had</td></tr><tr><td>buy</td><td>bought</td></tr><tr><td>come</td><td>came</td></tr><tr><td>write</td><td>wrote</td></tr><tr><td>take</td><td>took</td></tr><tr><td>drink</td><td>drank</td></tr><tr><td>make</td><td>made</td></tr></table>`,
+x:[["I went to school.","Fui a la escuela."],["She ate an apple.","Ella comió una manzana."],["We saw a movie.","Vimos una película."],["He bought a phone.","Él compró un teléfono."]],
+q:["Yesterday I ___ to school. (go)|went|goed,gone|Ayer fui a la escuela.","She ___ an apple. (eat)|ate|eated,eaten|Ella comió una manzana.","We ___ a movie. (see)|saw|seed,seen|Vimos una película.","They ___ a big house. (have)|had|haved,has|Ellos tenían una casa grande.","He ___ a new phone. (buy)|bought|buyed,buy|Él compró un teléfono nuevo.","She ___ to my party. (come)|came|comed,come|Ella vino a mi fiesta.","I ___ a letter. (write)|wrote|writed,written|Escribí una carta.","He ___ my pencil. (take)|took|taked,taken|Él tomó mi lápiz.","We ___ water. (drink)|drank|drinked,drunk|Bebimos agua.","She ___ a cake. (make)|made|maked,make|Ella hizo un pastel."]}
+];
+const $=id=>document.getElementById(id),app=$("app");
+let xp=0,best=T.map(()=>0),st={};
+const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)say(b.dataset.say)});
+const hdr=()=>`<div class="top"><h1>🎮 English Grammar Quest</h1><div class="xp">⭐ ${xp} XP</div></div>`;
+function home(){
+app.innerHTML=hdr()+`<p>Elige un tema: primero <b>aprende</b> y luego practica con ejercicios. Toca 🔊 para escuchar en inglés.</p><div class="grid">`+T.map((t,i)=>`<button class="card tp" onclick="learn(${i})"><b>${t.i} ${t.n}</b><span>${t.q.length} ejercicios · mejor: ${best[i]}/${t.q.length} ${best[i]==t.q.length?"🏆":""}</span></button>`).join("")+`</div>`}
+function learn(i){const t=T[i];
+app.innerHTML=hdr()+`<button class="btn g" onclick="home()">← Temas</button><h2>${t.i} ${t.n}</h2><div class="card">${t.e}</div><div class="card" style="margin-top:10px"><b>Ejemplos</b>`+t.x.map(x=>`<div class="ex"><button class="sp" data-say="${x[0]}">🔊</button><div>${x[0]}<small>${x[1]}</small></div></div>`).join("")+`</div><p><button class="btn" onclick="quiz(${i})">¡A practicar! 🚀</button></p>`}
+function quiz(i){st={i,qs:sh(T[i].q),n:0,ok:0};ask()}
+function ask(){const t=T[st.i],r=st.qs[st.n].split("|"),opts=sh([r[1],...r[2].split(",")]);st.r=r;
+app.innerHTML=hdr()+`<button class="btn g" onclick="learn(${st.i})">← Repasar teoría</button><p>${t.i} ${t.n} — pregunta ${st.n+1} de ${st.qs.length} · ✅ ${st.ok}</p><div class="bar"><i style="width:${st.n/st.qs.length*100}%"></i></div><div class="q">${r[0].replace("___","_____")}</div>`+opts.map(o=>`<button class="opt" data-o="${o}">${o}</button>`).join("")+`<div id="fb"></div>`;
+document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(b))}
+function pick(b){const r=st.r,full=r[0].replace("___",r[1]),good=b.dataset.o===r[1];
+document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.dataset.o===r[1])o.classList.add("ok")});
+if(good){st.ok++;xp+=10}else b.classList.add("no");
+$("fb").innerHTML=`<div class="fb">${good?"✅ ¡Correcto! +10 XP":"❌ Casi. La respuesta es <b>"+r[1]+"</b>"}<br><button class="sp" data-say="${full}">🔊</button> <b>${full}</b><br><small>🇪🇸 ${r[3]}</small></div><p><button class="btn" id="nx">${st.n+1<st.qs.length?"Siguiente →":"Ver resultado"}</button></p>`;
+say(full);$("nx").onclick=()=>{st.n++;st.n<st.qs.length?ask():end()}}
+function end(){const i=st.i,n=st.qs.length,p=st.ok/n;if(st.ok>best[i])best[i]=st.ok;if(st.ok==n)xp+=20;
+app.innerHTML=hdr()+`<div class="card" style="text-align:center"><h2>${p==1?"🏆 ¡Perfecto!":p>=.7?"🎉 ¡Muy bien!":"💪 ¡Sigue practicando!"}</h2><div class="q">${st.ok} / ${n}</div><p>${p==1?"+20 XP de bonus":"Repasa la teoría e inténtalo otra vez."}</p><button class="btn" onclick="quiz(${i})">Repetir</button> <button class="btn g" onclick="learn(${i})">Ver teoría</button> <button class="btn g" onclick="home()">Temas</button></div>`}
+home();
+</script></body></html>
